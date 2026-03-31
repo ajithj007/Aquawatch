@@ -11,12 +11,19 @@ from weather import get_weather
 app = Flask(__name__)
 CORS(app)
 
+# Initialize database on startup (works for gunicorn and local)
+init_db()
+
 # Background task for simulating sensor cycles
 def background_simulator():
     while True:
         simulate_cycle()
         detect_anomalies()
         time.sleep(5)
+
+# Start simulator thread on boot
+bg_thread = threading.Thread(target=background_simulator, daemon=True)
+bg_thread.start()
 
 @app.route('/api/sensors', methods=['GET'])
 def sensors():
@@ -97,11 +104,6 @@ if __name__ == '__main__':
         print("Error: Python 3.10+ is required due to dependencies compatibility.")
         sys.exit(1)
         
-    init_db()
-    # Start background simulator
-    bg_thread = threading.Thread(target=background_simulator, daemon=True)
-    bg_thread.start()
-    
     # Render requires listening on 0.0.0.0 and expects the dynamic PORT environment variable.
     port = int(os.environ.get('PORT', 5001))
     app.run(host='0.0.0.0', port=port, debug=False)
