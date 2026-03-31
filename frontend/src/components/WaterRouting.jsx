@@ -15,7 +15,7 @@ export default function WaterRouting() {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const res = await axios.get('https://aquawatch-1.onrender.com');
+        const res = await axios.get('https://aquawatch-1.onrender.com/api/weather');
         setWeather(res.data);
       } catch (err) {
         console.error(err);

@@ -22,16 +22,16 @@ export default function VoiceCommand() {
 
     if (userMsg.includes('water today') || userMsg.includes('usage today')) {
       try {
-        const res = await axios.get('https://aquawatch-1.onrender.com');
+        const res = await axios.get('https://aquawatch-1.onrender.com/api/budget/today');
         response = `Today's usage is ${res.data.current_usage?.toFixed(1) || 0}L out of your ${res.data.daily_limit_litres || 150}L budget.`;
-      } catch (e) {
+      } catch {
         response = "Couldn't fetch today's usage.";
       }
     } else if (userMsg.includes('turn off garden')) {
       try {
-        await axios.post('https://aquawatch-1.onrender.com', { rain: true }); // triggers rain response for garden
+        await axios.post('https://aquawatch-1.onrender.com/api/demo/override', { rain: true }); // triggers rain response for garden
         response = "Garden supply scheduled for shutdown. Diverting logic to rain mode.";
-      } catch (e) {
+      } catch {
         response = "Failed to communicate with Garden Node.";
       }
     } else if (userMsg.includes('show leaks') || userMsg.includes('alert')) {
@@ -39,9 +39,9 @@ export default function VoiceCommand() {
       // In a real app we'd dispatch an event to change tabs.
     } else if (userMsg.includes('score') || userMsg.includes('credit')) {
       try {
-        const res = await axios.get('https://aquawatch-1.onrender.com');
+        const res = await axios.get('https://aquawatch-1.onrender.com/api/credit-score');
         response = `Your current Water Credit Score is ${res.data.score}/100. Keep up the efficiency!`;
-      } catch (e) {
+      } catch {
         response = "Couldn't fetch your credit score.";
       }
     }
@@ -72,8 +72,8 @@ export default function VoiceCommand() {
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${m.role === 'user'
-                    ? 'bg-cyan-500 text-black rounded-tr-sm font-medium'
-                    : 'bg-black/50 text-gray-200 border border-white/10 rounded-tl-sm'
+                  ? 'bg-cyan-500 text-black rounded-tr-sm font-medium'
+                  : 'bg-black/50 text-gray-200 border border-white/10 rounded-tl-sm'
                   }`}>
                   {m.content}
                 </div>

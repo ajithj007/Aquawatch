@@ -7,7 +7,6 @@ from database import init_db, get_latest_readings, get_history, get_alerts, dism
 from simulator import simulate_cycle, SIM_OVERRIDES
 from anomaly import detect_anomalies
 from weather import get_weather
-from gemini_client import analyze_with_gemini
 
 app = Flask(__name__)
 CORS(app)
@@ -73,33 +72,6 @@ def get_budget_today():
     data = get_budget()
     return jsonify(data)
 
-@app.route('/api/gemini/analyze', methods=['POST'])
-def gemini_analyze():
-    req_data = request.json
-    prompt_type = req_data.get('type')
-    context = req_data.get('context', {})
-    
-    prompt = "Analyze the following water management data and provide insights.\\n"
-    if prompt_type == 'leak':
-        prompt = f"Unusual water leak detected: {context.get('msg')}. Generate a short explanation and advice."
-    elif prompt_type == 'credit':
-        prompt = f"User credit score: {context.get('score')} based on metrics {context}. Give 3 personalized improvement tips."
-    elif prompt_type == 'rain':
-        prompt = f"Rainwater tank {context.get('tank')}%. Weather: {context.get('rain')} expected. Give smart usage strategy."
-    elif prompt_type == 'community':
-        prompt = f"Community stats: {context}. Give neighborhood intelligence narrative about anomalies if any."
-    elif prompt_type == 'sim':
-        prompt = f"User parameters: {context}. Give conservation plan."
-    elif prompt_type == 'quality':
-        prompt = f"Water quality: {context}. Give usage guidance."
-    elif prompt_type == 'emergency':
-        prompt = f"Emergency shutdown initiated! Give critical response instructions."
-    else:
-        # Custom / unhandled
-        prompt = req_data.get('prompt', prompt)
-
-    response_text = analyze_with_gemini(prompt)
-    return jsonify({'analysis': response_text})
 
 @app.route('/api/emergency', methods=['POST'])
 def emergency_toggle():

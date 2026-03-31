@@ -96,8 +96,9 @@ export default function Dashboard() {
     // ✅ get history per node
     const histData = {};
     for (const node of res.data) {
+      const urlSafeNodeId = encodeURIComponent(node.node_id);
       const histRes = await axios.get(
-        `https://aquawatch-1.onrender.com/api/history/${node.node_id}`
+        `https://aquawatch-1.onrender.com/api/sensors/history/${urlSafeNodeId}`
       );
       histData[node.node_id] = histRes.data.reverse();
     }

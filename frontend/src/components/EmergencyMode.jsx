@@ -22,7 +22,7 @@ export default function EmergencyMode({ onStatusChange }) {
 
   const executeShutdown = async () => {
     try {
-      await axios.post('https://aquawatch-1.onrender.com', { status: true });
+      await axios.post('https://aquawatch-1.onrender.com/api/emergency', { status: true });
       setActive(true);
       if (onStatusChange) onStatusChange(true);
     } catch (e) {
@@ -33,7 +33,7 @@ export default function EmergencyMode({ onStatusChange }) {
   const cancelEmergency = async () => {
     setCountdown(null);
     try {
-      await axios.post('https://aquawatch-1.onrender.com', { status: false });
+      await axios.post('https://aquawatch-1.onrender.com/api/emergency', { status: false });
       setActive(false);
       if (onStatusChange) onStatusChange(false);
     } catch (e) {

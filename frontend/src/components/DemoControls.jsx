@@ -7,7 +7,7 @@ export default function DemoControls() {
 
   const setOverride = async (key, val) => {
     try {
-      await axios.post('https://aquawatch-1.onrender.com', { [key]: val });
+      await axios.post('https://aquawatch-1.onrender.com/api/demo/override', { [key]: val });
     } catch (e) {
       console.error(e);
     }
