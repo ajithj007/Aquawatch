@@ -24,7 +24,7 @@ function App() {
     
     const fetchBudget = async () => {
       try {
-        const res = await axios.get('http://localhost:5001/api/budget/today');
+        const res = await axios.get('https://aquawatch-1.onrender.com');
         setBudgetData(res.data);
       } catch (err) {
         console.error('Error fetching budget:', err);
