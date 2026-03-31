@@ -120,6 +120,7 @@ def update_demo():
 
 if __name__ == '__main__':
     import sys
+    import os
     if sys.version_info < (3, 10):
         print("Error: Python 3.10+ is required due to dependencies compatibility.")
         sys.exit(1)
@@ -128,4 +129,7 @@ if __name__ == '__main__':
     # Start background simulator
     bg_thread = threading.Thread(target=background_simulator, daemon=True)
     bg_thread.start()
-    app.run(port=5001, debug=False)
+    
+    # Render requires listening on 0.0.0.0 and expects the dynamic PORT environment variable.
+    port = int(os.environ.get('PORT', 5001))
+    app.run(host='0.0.0.0', port=port, debug=False)
