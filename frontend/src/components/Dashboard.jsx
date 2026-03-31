@@ -90,7 +90,7 @@ export default function Dashboard() {
     const fetchData = async () => {
   try {
     // ✅ get all sensors
-    const res = await axios.get('https://aquawatch-1.onrender.com/api/sensors');
+    const res = await axios.get('https://aquawatch1.onrender.com/api/sensors');
     setSensors(res.data);
 
     // ✅ get history per node
@@ -98,7 +98,7 @@ export default function Dashboard() {
     for (const node of res.data) {
       const urlSafeNodeId = encodeURIComponent(node.node_id);
       const histRes = await axios.get(
-        `https://aquawatch-1.onrender.com/api/sensors/history/${urlSafeNodeId}`
+        `https://aquawatch1.onrender.com/api/sensors/history/${urlSafeNodeId}`
       );
       histData[node.node_id] = histRes.data.reverse();
     }

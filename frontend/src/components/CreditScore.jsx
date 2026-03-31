@@ -9,7 +9,7 @@ export default function CreditScore() {
   useEffect(() => {
     const fetchScore = async () => {
       try {
-        const res = await axios.get('https://aquawatch-1.onrender.com/api/credit-score');
+        const res = await axios.get('https://aquawatch1.onrender.com/api/credit-score');
         setScoreData(res.data);
       } catch (err) {
         console.error(err);

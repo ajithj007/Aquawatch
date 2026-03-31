@@ -22,14 +22,14 @@ export default function VoiceCommand() {
 
     if (userMsg.includes('water today') || userMsg.includes('usage today')) {
       try {
-        const res = await axios.get('https://aquawatch-1.onrender.com/api/budget/today');
+        const res = await axios.get('https://aquawatch1.onrender.com/api/budget/today');
         response = `Today's usage is ${res.data.current_usage?.toFixed(1) || 0}L out of your ${res.data.daily_limit_litres || 150}L budget.`;
       } catch {
         response = "Couldn't fetch today's usage.";
       }
     } else if (userMsg.includes('turn off garden')) {
       try {
-        await axios.post('https://aquawatch-1.onrender.com/api/demo/override', { rain: true }); // triggers rain response for garden
+        await axios.post('https://aquawatch1.onrender.com/api/demo/override', { rain: true }); // triggers rain response for garden
         response = "Garden supply scheduled for shutdown. Diverting logic to rain mode.";
       } catch {
         response = "Failed to communicate with Garden Node.";
@@ -39,7 +39,7 @@ export default function VoiceCommand() {
       // In a real app we'd dispatch an event to change tabs.
     } else if (userMsg.includes('score') || userMsg.includes('credit')) {
       try {
-        const res = await axios.get('https://aquawatch-1.onrender.com/api/credit-score');
+        const res = await axios.get('https://aquawatch1.onrender.com/api/credit-score');
         response = `Your current Water Credit Score is ${res.data.score}/100. Keep up the efficiency!`;
       } catch {
         response = "Couldn't fetch your credit score.";

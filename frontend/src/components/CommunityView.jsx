@@ -9,7 +9,7 @@ export default function CommunityView() {
   useEffect(() => {
     const fetchCommunity = async () => {
       try {
-        const res = await axios.get('https://aquawatch-1.onrender.com/api/community');
+        const res = await axios.get('https://aquawatch1.onrender.com/api/community');
         setData(res.data);
       } catch (err) {
         console.error(err);

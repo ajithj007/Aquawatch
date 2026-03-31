@@ -7,7 +7,7 @@ export default function AlertPanel({ isMainView = true }) {
 
   const fetchAlerts = async () => {
     try {
-      const res = await axios.get('https://aquawatch-1.onrender.com/api/alerts');
+      const res = await axios.get('https://aquawatch1.onrender.com/api/alerts');
       setAlerts(res.data);
     } catch (err) {
       console.error(err);
@@ -23,7 +23,7 @@ export default function AlertPanel({ isMainView = true }) {
 
   const dismissAlert = async (id) => {
     try {
-      await axios.post(`https://aquawatch-1.onrender.com/api/alerts/dismiss/${id}`);
+      await axios.post(`https://aquawatch1.onrender.com/api/alerts/dismiss/${id}`);
       fetchAlerts();
     } catch (err) {
       console.error(err);
