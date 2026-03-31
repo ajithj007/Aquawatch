@@ -42,7 +42,7 @@ const NodeCard = ({ data, history }) => {
           </div>
           <div className="text-2xl font-bold text-white font-mono">{data.pressure.toFixed(2)} <span className="text-xs font-medium text-slate-500 font-sans">bar</span></div>
         </div>
-        
+
         {data.node_id !== 'Main Line' && (
           <>
             <div className="bg-[#0B0C10]/50 p-4 rounded-lg border border-[#1F2332]">
@@ -68,7 +68,7 @@ const NodeCard = ({ data, history }) => {
       <div className="h-28 w-full mt-2 bg-[#0B0C10]/50 rounded-lg p-3 border border-[#1F2332]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
-            <Tooltip 
+            <Tooltip
               contentStyle={{ backgroundColor: '#11131A', border: '1px solid #1F2332', borderRadius: '6px', color: '#fff' }}
               itemStyle={{ color: '#fff', fontSize: '12px', fontWeight: 'bold' }}
               labelStyle={{ color: '#64748b', fontSize: '10px', textTransform: 'uppercase' }}
@@ -89,20 +89,20 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:5001/api/sensors');
+        const res = await axios.get('https://aquawatch-1.onrender.com');
         setSensors(res.data);
-        
+
         const histData = {};
         for (const node of res.data) {
-          const histRes = await axios.get(`http://localhost:5001/api/sensors/history/${node.node_id}`);
-          histData[node.node_id] = histRes.data.reverse(); 
+          const histRes = await axios.get(`https://aquawatch-1.onrender.com`);
+          histData[node.node_id] = histRes.data.reverse();
         }
         setHistory(histData);
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
       }
     };
-    
+
     fetchData();
     const int = setInterval(fetchData, 5000);
     return () => clearInterval(int);
@@ -116,7 +116,7 @@ export default function Dashboard() {
         <h2 className="text-2xl font-bold text-white uppercase tracking-wide">Monitoring</h2>
         <p className="text-slate-500 mt-1 font-medium text-sm">Real-time status of connected utility endpoints.</p>
       </div>
-      
+
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {sensors.map((sensor) => (
           <NodeCard key={sensor.node_id} data={sensor} history={history[sensor.node_id] || []} />

@@ -7,7 +7,7 @@ export default function EmergencyMode({ onStatusChange }) {
   const [active, setActive] = useState(false);
 
   const activateEmergency = () => {
-    let timer = 5; 
+    let timer = 5;
     setCountdown(timer);
     const int = setInterval(() => {
       timer -= 1;
@@ -22,7 +22,7 @@ export default function EmergencyMode({ onStatusChange }) {
 
   const executeShutdown = async () => {
     try {
-      await axios.post('http://localhost:5001/api/emergency', { status: true });
+      await axios.post('https://aquawatch-1.onrender.com', { status: true });
       setActive(true);
       if (onStatusChange) onStatusChange(true);
     } catch (e) {
@@ -33,7 +33,7 @@ export default function EmergencyMode({ onStatusChange }) {
   const cancelEmergency = async () => {
     setCountdown(null);
     try {
-      await axios.post('http://localhost:5001/api/emergency', { status: false });
+      await axios.post('https://aquawatch-1.onrender.com', { status: false });
       setActive(false);
       if (onStatusChange) onStatusChange(false);
     } catch (e) {
@@ -43,7 +43,7 @@ export default function EmergencyMode({ onStatusChange }) {
 
   if (active) {
     return (
-      <button 
+      <button
         onClick={cancelEmergency}
         className="bg-rose-500 hover:bg-rose-600 text-white text-[10px] py-2 px-4 rounded font-bold uppercase tracking-widest flex items-center gap-2 border border-rose-600"
       >
@@ -54,7 +54,7 @@ export default function EmergencyMode({ onStatusChange }) {
 
   if (countdown !== null) {
     return (
-      <button 
+      <button
         onClick={cancelEmergency}
         className="bg-amber-500 text-[#0B0C10] text-[10px] py-2 px-4 rounded font-bold uppercase tracking-widest flex items-center gap-2 border border-amber-600"
       >
@@ -65,7 +65,7 @@ export default function EmergencyMode({ onStatusChange }) {
   }
 
   return (
-    <button 
+    <button
       onClick={activateEmergency}
       className="bg-[#11131A] hover:bg-rose-500/10 text-rose-500 hover:border-rose-500/30 text-[10px] py-2 px-4 rounded font-bold uppercase tracking-widest border border-[#1F2332] transition-colors"
     >
