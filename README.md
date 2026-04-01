@@ -40,9 +40,9 @@ Google's Gemini model was used extensively as a **Pair Programmer and Design Arc
 ---
 
 ## Demo Video
-Upload your demo video to Google Drive and paste the shareable link here(max 3 minutes).
-[Watch AquaWatch Demo](#)
 
+[Watch AquaWatch Demo](#)
+https://drive.google.com/drive/folders/1lBue1zpPdj2IO3BQbm7VmSxLVA5Lt23k?usp=sharing
 ---
 
 ## Installation Steps
