@@ -28,18 +28,14 @@ Google's Gemini model was used extensively as a **Pair Programmer and Design Arc
 ---
 
 ## Proof of Google AI Usage
-Attach screenshots in a `/proof` folder:
-
-![AI Design Iterations](./proof/ai_design_drafts.png)
-*Initial UI concepts generated and refined via Google AI.*
+<img width="1848" height="967" alt="Screenshot from 2026-04-01 05-53-27" src="https://github.com/user-attachments/assets/19109faa-b4de-4e75-b1bf-66246459d718" />
 
 ---
 
 ## Screenshots 
-Add project screenshots:
+<img width="1848" height="967" alt="Screenshot from 2026-04-01 05-53-27" src="https://github.com/user-attachments/assets/ad0d3118-b00d-45ba-8d0f-e828ab0654cb" />
+<img width="1848" height="967" alt="Screenshot from 2026-04-01 06-03-38" src="https://github.com/user-attachments/assets/5fe00e9d-de63-4784-a484-7f8199de6397" />
 
-![Dashboard Monitor](./assets/monitor_view.png)  
-![Topology Routing](./assets/topology_logic.png)
 
 ---
 
