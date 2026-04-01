@@ -88,28 +88,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-  try {
-    // ✅ get all sensors
-    const res = await axios.get('https://aquawatch1.onrender.com/api/sensors');
-    setSensors(res.data);
-
-    // ✅ get history per node FAST in parallel
-    const histData = {};
-    const promises = res.data.map(async (node) => {
-      const urlSafeNodeId = encodeURIComponent(node.node_id);
-      const histRes = await axios.get(
-        `https://aquawatch1.onrender.com/api/sensors/history/${urlSafeNodeId}`
-      );
-      histData[node.node_id] = histRes.data.reverse();
-    });
-    await Promise.all(promises);
-
-    setHistory(histData);
-
-  } catch (err) {
-    console.error('Error fetching dashboard data:', err);
-  }
-};
+      try {
+        const res = await axios.get('https://aquawatch1.onrender.com/api/dashboard');
+        setSensors(res.data.sensors);
+        setHistory(res.data.history);
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err);
+      }
+    };
 
     fetchData();
     const int = setInterval(fetchData, 5000);

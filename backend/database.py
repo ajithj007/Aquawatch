@@ -178,6 +178,17 @@ def get_community_data():
     conn.close()
     return [dict(ix) for ix in rows]
 
+def get_dashboard_data():
+    """Returns combined sensors and history for all nodes in one pass"""
+    sensors = get_latest_readings()
+    history = {}
+    for node in sensors:
+        history[node['node_id']] = get_history(node['node_id'], limit=20)
+    return {
+        "sensors": sensors,
+        "history": history
+    }
+
 def get_budget():
     conn = get_db_connection()
     c = conn.cursor()

@@ -3,16 +3,13 @@ from flask_cors import CORS
 import threading
 import time
 
-from database import init_db, get_latest_readings, get_history, get_alerts, dismiss_alert, get_credit_score, get_community_data, get_budget, set_budget, add_alert
+from database import init_db, get_latest_readings, get_history, get_alerts, dismiss_alert, get_credit_score, get_community_data, get_budget, set_budget, add_alert, get_dashboard_data
 from simulator import simulate_cycle, SIM_OVERRIDES
 from anomaly import detect_anomalies
 from weather import get_weather
 
 app = Flask(__name__)
 CORS(app)
-
-# Initialize database on startup (works for gunicorn and local)
-init_db()
 
 # Background task for simulating sensor cycles
 def background_simulator():
@@ -21,13 +18,26 @@ def background_simulator():
         detect_anomalies()
         time.sleep(5)
 
-# Start simulator thread on boot
-bg_thread = threading.Thread(target=background_simulator, daemon=True)
-bg_thread.start()
+simulator_started = False
+
+@app.before_request
+def start_simulator():
+    global simulator_started
+    if not simulator_started:
+        # Prevents sqlite lock corruption due to gunicorn fork
+        init_db()
+        bg_thread = threading.Thread(target=background_simulator, daemon=True)
+        bg_thread.start()
+        simulator_started = True
 
 @app.route('/api/sensors', methods=['GET'])
 def sensors():
     data = get_latest_readings()
+    return jsonify(data)
+
+@app.route('/api/dashboard', methods=['GET'])
+def dashboard_all():
+    data = get_dashboard_data()
     return jsonify(data)
 
 @app.route('/api/sensors/history/<node_id>', methods=['GET'])
