@@ -26,6 +26,10 @@ def init_db():
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     ''')
+    
+    # Create indexes so the backend continues to be fast as data grows
+    c.execute('CREATE INDEX IF NOT EXISTS idx_sensor_node_timestamp ON sensor_readings(node_id, timestamp DESC)')
+    c.execute('CREATE INDEX IF NOT EXISTS idx_sensor_node_id ON sensor_readings(node_id, id DESC)')
 
     c.execute('''
         CREATE TABLE IF NOT EXISTS alerts (
@@ -108,12 +112,12 @@ def get_latest_readings():
     conn = get_db_connection()
     c = conn.cursor()
     c.execute('''
-        SELECT n.node_id, r.flow_rate, r.pressure, r.ph, r.turbidity, r.status, r.timestamp
-        FROM (SELECT DISTINCT node_id FROM sensor_readings) n
-        JOIN sensor_readings r ON n.node_id = r.node_id
-        WHERE r.id = (
-            SELECT MAX(id) FROM sensor_readings WHERE node_id = n.node_id
-        )
+        SELECT node_id, flow_rate, pressure, ph, turbidity, status, timestamp 
+        FROM (
+            SELECT *, ROW_NUMBER() OVER(PARTITION BY node_id ORDER BY id DESC) as rn 
+            FROM sensor_readings
+        ) 
+        WHERE rn = 1
     ''')
     rows = c.fetchall()
     conn.close()
