@@ -93,15 +93,16 @@ export default function Dashboard() {
     const res = await axios.get('https://aquawatch1.onrender.com/api/sensors');
     setSensors(res.data);
 
-    // ✅ get history per node
+    // ✅ get history per node FAST in parallel
     const histData = {};
-    for (const node of res.data) {
+    const promises = res.data.map(async (node) => {
       const urlSafeNodeId = encodeURIComponent(node.node_id);
       const histRes = await axios.get(
         `https://aquawatch1.onrender.com/api/sensors/history/${urlSafeNodeId}`
       );
       histData[node.node_id] = histRes.data.reverse();
-    }
+    });
+    await Promise.all(promises);
 
     setHistory(histData);
 
